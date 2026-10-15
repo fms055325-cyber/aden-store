@@ -161,11 +161,32 @@
         total.toLocaleString("en-US");
     }
 
-    function checkout() {
-      document.getElementById("notice").textContent = cart.length
-        ? "هذه نسخة تجريبية فقط. لم يُرسل طلب حقيقي بعد."
-        : "أضف منتجاً إلى السلة أولاً.";
-    }
+    
+function checkout() {
+  if (cart.length === 0) {
+    document.getElementById("notice").textContent =
+      "أضف منتجاً إلى السلة أولاً.";
+    return;
+  }
+
+  const total = cart.reduce((sum, p) => sum + p.price, 0);
+
+  const items = cart.map(p =>
+    `- ${p.name}: ${p.price.toLocaleString("en-US")} ريال يمني`
+  ).join("\n");
+
+  const message =
+    "السلام عليكم، أريد طلب المنتجات التالية من متجر عدن:\n\n" +
+    items +
+    "\n\nالإجمالي: " + total.toLocaleString("en-US") +
+    " ريال يمني\n\nأرجو تأكيد الطلب والتوصيل والدفع عند الاستلام.";
+
+  const whatsappURL =
+    "https://wa.me/967776175549?text=" + encodeURIComponent(message);
+
+  window.open(whatsappURL, "_blank");
+}
+
   </script>
 </body>
 </html>
