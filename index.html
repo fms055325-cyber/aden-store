@@ -182,9 +182,9 @@ function checkout() {
     " ريال يمني\n\nأرجو تأكيد الطلب والتوصيل والدفع عند الاستلام.";
 
   const whatsappURL =
-    "https://wa.me/967776175549?text=" + encodeURIComponent(message);
+  "https://api.whatsapp.com/send?phone=967776175549&text=" + encodeURIComponent(message);
 
- window.open(whatsappURL, "_blank");  
+window.location.href = whatsappURL;  
 }
 
   </script>
