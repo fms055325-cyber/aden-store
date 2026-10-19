@@ -1,1 +1,192 @@
-https://chatgpt.com/backend-api/estuary/content?id=file_0000000016a481faad7ae61ce3bad875&fn=aden-store-updated.html&cd=attachment&ts=497898&p=fs&cid=1&sig=075266a3b4b4e675424c1ede18bb3f61b831acd7ad5c4d9f51026283236755af&v=0
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>متجر عدن | تسوق بأناقة</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f8f6f2;
+      color: #24221f;
+    }
+    header {
+      background: #201c19;
+      color: white;
+      padding: 22px 16px;
+      text-align: center;
+    }
+    header h1 { margin: 0 0 8px; }
+    header p { color: #e1c9a5; margin: 0; }
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      padding: 14px;
+      background: #fff;
+      flex-wrap: wrap;
+    }
+    nav a { color: #383027; text-decoration: none; }
+    .hero {
+      padding: 36px 18px;
+      text-align: center;
+      background: #e9dfd0;
+    }
+    .hero h2 { font-size: 27px; margin: 0 0 12px; }
+    .hero p { line-height: 1.8; }
+    .section { padding: 22px 14px; }
+    .section h2 { text-align: center; }
+    .products {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 13px;
+    }
+    .product {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      padding-bottom: 14px;
+      text-align: center;
+      box-shadow: 0 2px 9px #0000000c;
+    }
+    .photo {
+      height: 120px;
+      display: grid;
+      place-items: center;
+      background: #eee6da;
+      font-size: 48px;
+    }
+    .product h3 { margin: 12px 4px 6px; }
+    .price { color: #79552c; font-weight: bold; }
+    button {
+      border: 0;
+      border-radius: 7px;
+      padding: 10px 14px;
+      background: #29231d;
+      color: white;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+    .cart {
+      background: white;
+      padding: 18px;
+      margin-top: 20px;
+      border-radius: 12px;
+    }
+    footer {
+      text-align: center;
+      background: #201c19;
+      color: white;
+      padding: 22px;
+      margin-top: 25px;
+    }
+    @media (min-width: 650px) {
+      .products { grid-template-columns: repeat(4, 1fr); }
+      .photo { height: 160px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>متجر عدن</h1>
+    <p>ملابس وعطور ومنتجات تناسب ذوقك</p>
+  </header>
+
+  <nav>
+    <a href="#home">الرئيسية</a>
+    <a href="#products">المنتجات</a>
+    <a href="#cart">سلة المشتريات</a>
+  </nav>
+
+  <section class="hero" id="home">
+    <h2>أهلاً بك في متجر عدن</h2>
+    <p>اكتشف منتجاتنا واختر ما يناسبك بكل سهولة.</p>
+    <a href="#products"><button>تصفح المنتجات</button></a>
+  </section>
+
+  <main class="section" id="products">
+    <h2>منتجاتنا</h2>
+    <div class="products" id="product-list"></div>
+
+    <section class="cart" id="cart">
+      <h2>سلة المشتريات 🛒</h2>
+      <div id="cart-items">السلة فارغة حالياً.</div>
+      <p>الإجمالي: <strong id="total">0</strong> ريال يمني</p>
+      <button onclick="checkout()">إرسال طلب تجريبي</button>
+      <p id="notice"></p>
+    </section>
+  </main>
+
+  <footer>
+    <p>متجر عدن © 2026</p>
+    <p>التوصيل في عدن — الدفع عند الاستلام عند تأكيد الطلب</p>
+  </footer>
+
+  <script>
+    const products = [
+      {name:"قميص أنيق", price:5000, icon:"👕"},
+      {name:"عطر فاخر", price:8000, icon:"🧴"},
+      {name:"حقيبة عصرية", price:6500, icon:"👜"},
+      {name:"ساعة أنيقة", price:7000, icon:"⌚"}
+    ];
+
+    const cart = [];
+
+    document.getElementById("product-list").innerHTML =
+      products.map((p, i) => `
+        <article class="product">
+          <div class="photo">${p.icon}</div>
+          <h3>${p.name}</h3>
+          <p class="price">${p.price.toLocaleString("en-US")} ريال يمني</p>
+          <button onclick="addToCart(${i})">أضف إلى السلة</button>
+        </article>
+      `).join("");
+
+    function addToCart(index) {
+      cart.push(products[index]);
+      renderCart();
+    }
+
+    function renderCart() {
+      const box = document.getElementById("cart-items");
+      box.innerHTML = cart.length
+        ? cart.map(p => `<p>${p.name} — ${p.price.toLocaleString("en-US")} ريال</p>`).join("")
+        : "السلة فارغة حالياً.";
+
+      const total = cart.reduce((sum, p) => sum + p.price, 0);
+      document.getElementById("total").textContent =
+        total.toLocaleString("en-US");
+    }
+
+    
+function checkout() {
+  if (cart.length === 0) {
+    document.getElementById("notice").textContent =
+      "أضف منتجاً إلى السلة أولاً.";
+    return;
+  }
+
+  const total = cart.reduce((sum, p) => sum + p.price, 0);
+
+  const items = cart.map(p =>
+    `- ${p.name}: ${p.price.toLocaleString("en-US")} ريال يمني`
+  ).join("\n");
+
+  const message =
+    "السلام عليكم، أريد طلب المنتجات التالية من متجر عدن:\n\n" +
+    items +
+    "\n\nالإجمالي: " + total.toLocaleString("en-US") +
+    " ريال يمني\n\nأرجو تأكيد الطلب والتوصيل والدفع عند الاستلام.";
+
+  const whatsappURL =
+  "https://api.whatsapp.com/send?phone=967776175549&text=" + encodeURIComponent(message);
+
+window.location.href = whatsappURL;  
+}
+
+  </script>
+</body>
+</html>
